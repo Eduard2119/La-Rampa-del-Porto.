@@ -224,5 +224,37 @@
     const lang = currentLang;
 
     titleEl.textContent = translations[lang].title;
+    desc.textContent = translations[lang].description;
 
+    menuSection.innerHTML = `
+      <h2>${translations[lang].menuTitle}</h2>
+      <p>${translations[lang].menuTextWeekday}</p>
+      <p>${translations[lang].menuTextWeekend}</p>
+    `;
+  }
+
+  function renderPhotos() {
+    const photosContainer = document.getElementById('photos');
+    photosContainer.innerHTML = '';
+    const photos = JSON.parse(localStorage.getItem('photos')) || defaultPhotos;
+
+    photos.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      photosContainer.appendChild(img);
+    });
+  }
+
+  document.getElementById('lang-select').addEventListener('change', e => {
+    currentLang = e.target.value;
+    renderContent();
+  });
+
+  window.onload = () => {
+    renderContent();
+    renderPhotos();
+  };
+</script>
+</body>
+</html>
    
