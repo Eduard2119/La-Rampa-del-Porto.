@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Rampa del Porto</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0; background: #fefefe;
+    color: #333;
+  }
+  header {
+    background: #004d40; color: white;
+    padding: 20px 10px; text-align: center;
+  }
+  header h1 {
+    margin: 0; font-weight: 700;
+    font-size: 2.5rem;
+  }
+  nav {
+    margin-top: 10px;
+  }
+  nav select {
+    font-size: 1rem;
+    padding: 5px 10px;
+  }
+  main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+  }
+  .menu {
+    background: #e0f2f1;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+  .menu h2 {
+    margin-top: 0;
+    color: #00796b;
+  }
+  .photos {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .photos img {
+    max-width: 260px;
+    max-height: 160px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .description {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+  footer {
+    background: #004d40;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    margin-top: 40px;
+    font-size: 0.9rem;
+  }
+  .admin-login {
+    max-width: 300px;
+    margin: 20px auto;
+    background: #004d40;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+  }
+  .admin-login label, .admin-login input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .admin-login input {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+  }
+  .admin-login button {
+    background: #00796b;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .admin-panel {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #b2dfdb;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .admin-panel h3 {
+    color: #004d40;
+  }
+  .admin-panel input[type="file"] {
+    margin-bottom: 15px;
+  }
+  .admin-panel button {
+    background: #004d40;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="title">La Rampa del Porto</h1>
+  <nav>
+    <label for="lang-select" style="display:none;">Select language</label>
+    <select id="lang-select" aria-label="Select language">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+      <option value="es">Español</option>
+    </select>
+  </nav>
+</header>
+
+<main>
+  <section class="description" id="description"></section>
+
+  <section class="menu" id="menu-section"></section>
+
+  <section class="photos" id="photos"></section>
+</main>
+
+<footer>
+  &copy; 2025 La Rampa del Porto
+</footer>
+
+<div class="admin-login" id="admin-login">
+  <h3>Admin Login</h3>
+  <label for="username">Login:</label>
+  <input type="text" id="username" placeholder="admin" />
+  <label for="password">Password:</label>
+  <input type="password" id="password" placeholder="admin2" />
+  <button id="login-btn">Login</button>
+  <p id="login-msg" style="color:#f88;"></p>
+</div>
+
+<div class="admin-panel" id="admin-panel" style="display:none;">
+  <h3>Admin Panel - Upload Photos</h3>
+  <input type="file" id="photo-upload" accept="image/*" multiple />
+  <button id="save-photos-btn">Save Photos</button>
+  <button id="logout-btn" style="margin-top:10px; background:#d32f2f;">Logout</button>
+</div>
+
+<script>
+  const translations = {
+    it: {
+      title: "La Rampa del Porto",
+      description: "Benvenuti a La Rampa del Porto! Usciamo ogni mattina per selezionare i prodotti più freschi direttamente dal porto. Offriamo un'esperienza culinaria autentica con i migliori ingredienti locali. Il nostro ristorante è aperto dalle 13:00 alle 16:00 e dalle 20:00 a mezzanotte.",
+      menuTitle: "Il Nostro Menu Fisso",
+      menuTextWeekday: "Dal lunedì al venerdì, offriamo un menu fisso a 15€ (bevande escluse).",
+      menuTextWeekend: "Il sabato sera e la domenica il menu è a 20€, bevande incluse.",
+    },
+    en: {
+      title: "La Rampa del Porto",
+      description: "Welcome to La Rampa del Porto! Every morning we select the freshest products directly from the port. We offer an authentic culinary experience with the best local ingredients. Our restaurant is open from 1:00 PM to 4:00 PM and from 8:00 PM to midnight.",
+      menuTitle: "Our Fixed Menu",
+      menuTextWeekday: "From Monday to Friday, we offer a fixed menu for €15 (drinks not included).",
+      menuTextWeekend: "On Saturday evenings and Sunday, the menu is €20 with drinks included.",
+    },
+    ru: {
+      title: "La Rampa del Porto",
+      description: "Добро пожаловать в La Rampa del Porto! Каждое утро мы выбираем самые свежие продукты прямо с порта. Мы предлагаем аутентичную кулинарную атмосферу с лучшими местными ингредиентами. Наш ресторан открыт с 13:00 до 16:00 и с 20:00 до полуночи.",
+      menuTitle: "Наше Фиксированное Меню",
+      menuTextWeekday: "С понедельника по пятницу у нас фиксированное меню за 15€ (напитки не включены).",
+      menuTextWeekend: "В субботу вечером и воскресенье меню стоит 20€ с напитками.",
+    },
+    de: {
+      title: "La Rampa del Porto",
+      description: "Willkommen bei La Rampa del Porto! Jeden Morgen wählen wir die frischesten Produkte direkt vom Hafen aus. Wir bieten ein authentisches kulinarisches Erlebnis mit den besten lokalen Zutaten. Unser Restaurant ist von 13:00 bis 16:00 Uhr und von 20:00 Uhr bis Mitternacht geöffnet.",
+      menuTitle: "Unser Festes Menü",
+      menuTextWeekday: "Von Montag bis Freitag bieten wir ein festes Menü für 15€ an (Getränke nicht inbegriffen).",
+      menuTextWeekend: "Samstagabend und Sonntag kostet das Menü 20€ inklusive Getränke.",
+    },
+    fr: {
+      title: "La Rampa del Porto",
+      description: "Bienvenue à La Rampa del Porto ! Chaque matin, nous sélectionnons les produits les plus frais directement du port. Nous offrons une expérience culinaire authentique avec les meilleurs ingrédients locaux. Notre restaurant est ouvert de 13h00 à 16h00 et de 20h00 à minuit.",
+      menuTitle: "Notre Menu Fixe",
+      menuTextWeekday: "Du lundi au vendredi, nous proposons un menu fixe à 15€ (boissons non incluses).",
+      menuTextWeekend: "Le samedi soir et le dimanche, le menu est à 20€ avec boissons incluses.",
+    },
+    es: {
+      title: "La Rampa del Porto",
+      description: "¡Bienvenidos a La Rampa del Porto! Cada mañana seleccionamos los productos más frescos directamente del puerto. Ofrecemos una experiencia culinaria auténtica con los mejores ingredientes locales. Nuestro restaurante está abierto de 13:00 a 16:00 y de 20:00 a medianoche.",
+      menuTitle: "Nuestro Menú Fijo",
+      menuTextWeekday: "De lunes a viernes ofrecemos un menú fijo por 15€ (bebidas no incluidas).",
+      menuTextWeekend: "El sábado por la noche y el domingo, el menú cuesta 20€ con bebidas incluidas.",
+    }
+  };
+
+  const defaultPhotos = [
+    'https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80'
+  ];
+
+  let currentLang = 'it';
+
+  function renderContent() {
+    const desc = document.getElementById('description');
+    const menuSection = document.getElementById('menu-section');
+    const titleEl = document.getElementById('title');
+    const lang = currentLang;
+
+    titleEl.textContent = translations[lang].title;
+
+   
